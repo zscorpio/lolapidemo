@@ -1,0 +1,2 @@
+<?php 
+	define("DAIWAN_API_TOKEN", "B8D92-AB5EA-9DA44-9BAB0");
