@@ -80,6 +80,52 @@
 				echo json_encode($last);
 			}
 		}
+		if($api == 'gameDetail'){
+			if( isset($_GET['qquin']) && isset($_GET['vaid']) && isset($_GET['game_id']) ){
+				$lolapi->setVaid($_GET['vaid']);
+				$lolapi->setQquin($_GET['qquin']);
+				$detail = $lolapi->getGameDetail($_GET['game_id']);
+				$result = array();
+				$result['team'] = array();
+				// $detail = json_decode($detail,1);
+				$result['start_time'] = $detail['start_time'];
+				$result['duration'] = $detail['duration'];
+				$result['game_type_value'] = $gameTypeArray[$detail['game_type']];
+				foreach ($detail['gamer_records'] as $key => $value) {
+					if($value['team'] == 100){
+						$team = 0;
+					}
+					if($value['team'] == 200){
+						$team = 1;
+					}
+					$result['team'][$team][] = array(
+						'qquin'	=>				$value['qquin'],
+						'name'	=> 				$value['name'],
+						'champion_id'	=> 		$value['champion_id'],
+						'level'	=> 				$value['level'],
+						'item0'	=> 				$value['item0'],
+						'item1'	=> 				$value['item1'],
+						'item2'	=> 				$value['item2'],
+						'item3'	=> 				$value['item3'],
+						'item4'	=> 				$value['item4'],
+						'item5'	=> 				$value['item5'],
+						'item6'	=> 				$value['item6'],
+						'champions_killed'	=> 	$value['champions_killed'],
+						'num_deaths'	=> 		$value['num_deaths'],
+						'assists'	=> 			$value['assists'],
+						'total_damage_dealt_to_champions'	=> 			$value['total_damage_dealt_to_champions'],
+					);
+				}
+				$last = array(
+					'code'			=> 0,
+					'data'			=> $result
+				);
+				echo json_encode($last);
+			}else{
+				$last = array("code" => 1);
+				echo json_encode($last);
+			}
+		}
 		if($api == 'CombatList'){
 			if( isset($_GET['qquin']) && isset($_GET['vaid']) && isset($_GET['p']) ){
 				$save_file = true;

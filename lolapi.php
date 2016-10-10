@@ -24,9 +24,8 @@ class LOLApi
     public function getGameDetail($gameid){
         $file_key = "gameDetail".$gameid;
         $value = $this->fileCache->get($file_key);
-        // var_dump($value);
         if($value){
-            return json_encode($value);
+            return $value;
         }
         $snoopy = new Snoopy; 
         $snoopy->rawheaders['DAIWAN-API-TOKEN']= $this->token;
